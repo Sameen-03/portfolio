@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Ameen Shareef | AI & Data Science</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    
+    <style>
+        #sidebar-component.is-closed {
+            transform: translateX(-100%);
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-400 font-sans antialiased">
+
+    <button id="toggle-sidebar-btn" class="fixed top-4 left-4 z-50 bg-gray-900 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700 transition-all">
+        <i data-feather="chevrons-left" class="w-6 h-6"></i>
+    </button>
+
+    <custom-sidebar id="sidebar-component"></custom-sidebar>
+
+    <main id="main-content" class="ml-64 p-8 transition-all duration-300 ease-in-out">
+        
+        <section id="home" class="mb-16">
+            <h2 class="text-3xl font-bold mb-6 text-gray-300">About Me</h2>
+            <p class="text-gray-400 mb-4 text-lg max-w-4xl">AI and Data Science graduate with a solid foundation in machine learning, data analysis, and real-time applications. Experienced in building end-to-end AI solutions using modern tools and frameworks.</p>
+            <p class="text-gray-400 mb-6 text-lg max-w-4xl">Open to internships and entry-level roles in data science, Machine/Deep learning, or AI-driven development, with a passion for solving real-world problems through intelligent systems.</p>
+            <div class="flex flex-wrap gap-4">
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Python</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">SQL</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Pandas</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Scikit-learn</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">TensorFlow</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">PyTorch</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Langchain</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Git</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Docker</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Statistics</span>
+                <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Probability</span>
+            </div>
+        </section>
+
+        <section id="experience" class="mb-16">
+            <h2 class="text-2xl font-bold mb-8 text-gray-300 border-b border-gray-800 pb-2">Work Experience</h2>
+            <div class="space-y-8">
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Freelance Data Analyst</h3>
+                    <p class="text-gray-400">Remote | 08/2025 - Present</p>
+                    <ul class="mt-2 space-y-1 text-gray-300 list-disc list-inside">
+                        <li>Performing data cleaning, analysis, and visualization for clients.</li>
+                        <li>Developing predictive models to identify trends and provide actionable insights.</li>
+                    </ul>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Tech Lead - Data Wranglers Club</h3>
+                    <p class="text-gray-400">J.B. Institute of Engineering and Technology | 2023 - 07/2025</p>
+                    <ul class="mt-2 space-y-1 text-gray-300 list-disc list-inside">
+                        <li>Led technical initiatives including organizing coding competitions and designing problem sets.</li>
+                        <li>Mentored club members in data science concepts and programming skills.</li>
+                        <li>Spearheaded efforts to create an engaging and collaborative learning environment during university festivals.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="mb-20">
+            <h2 class="text-3xl font-bold mb-12 text-center text-gray-300">Featured Projects</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                
+                <project-card 
+                    title="SummarizeIt-RAG based article summarizer plugin"
+                    description="Developed a Chrome extension leveraging RAG architecture with Google's Gemini model to generate AI-powered article summaries. Achieved <2s average response time by implementing async FastAPI processing."
+                    tags="Python, FastAPI, RAG, Gemini API, JavaScript, Chrome API"
+                    link="https://github.com/Sameen-03">
+                </project-card>
+
+                <project-card 
+                    title="Delivery Duration Prediction"
+                    description="Built an ML model to predict delivery times using DoorDash data. Increased model accuracy by 20% by engineering features from timestamps, locations, and order metadata."
+                    tags="Python, Pandas, Scikit-learn, XGBoost, Seaborn"
+                    link="https://github.com/Sameen-03">
+                </project-card>
+
+            </div>
+        </section>
+
+        <section id="certifications" class="mb-16">
+            <h2 class="text-2xl font-bold mb-8 text-gray-300 border-b border-gray-800 pb-2">Certifications & Achievements</h2>
+            <div class="space-y-8">
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Oracle Cloud Infrastructure Foundations Associate</h3>
+                    <p class="text-gray-400">Oracle Cloud Infrastructure</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Oracle Cloud Infrastructure AI Foundations Associate</h3>
+                    <p class="text-gray-400">Oracle Cloud Infrastructure</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">CS50's Introduction to programming with Python</h3>
+                    <p class="text-gray-400">Harvard University (edX)</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">CS50's Introduction to Databases with SQL</h3>
+                    <p class="text-gray-400">Harvard University (edX)</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Associate AI engineer</h3>
+                    <p class="text-gray-400">Datacamp</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Applied statistics for Data analytics</h3>
+                    <p class="text-gray-400">Deeplearning.ai</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Deloitte Data Analytics job simulation program</h3>
+                    <p class="text-gray-400">Forage</p>
+                </div>
+                <div class="border-l-2 border-gray-500 pl-4">
+                    <h3 class="text-xl font-semibold">Solved 100+ DSA problems</h3>
+                    <p class="text-gray-400">Leetcode</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact" class="bg-gray-900 rounded-xl p-8 md:p-12 text-gray-300 border border-gray-800 text-center">
+            <h2 class="text-3xl font-bold mb-6">Get In Touch</h2>
+            <p class="mb-8 max-w-2xl mx-auto">I'm currently open to new opportunities and collaborations. Feel free to reach out via email.</p>
+            <a href="mailto:ameenshareef2003@gmail.com"
+               class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 text-lg">
+                ameenshareef2003@gmail.com
+            </a>
+        </section>
+    </main>
+    
+
+    <script>
+        class CustomSidebar extends HTMLElement {
+            connectedCallback() {
+                // Add transition classes to the component itself
+                this.classList.add('transition-transform', 'duration-300', 'ease-in-out', 'fixed', 'top-0', 'left-0', 'h-screen', 'z-40');
+                
+                this.innerHTML = `
+                <div class="relative w-64 h-full bg-gray-900 text-gray-400 p-6 pt-20 flex flex-col border-r border-gray-800">
+                    
+                    <div class="flex items-center mb-10">
+                        <div class="text-left">
+                            <h2 class="text-2xl font-bold text-white">Mohammed Ameen Shareef</h2>
+                            <p class="text-sm text-gray-400">AI & Data Science</p>
+                        </div>
+                    </div>
+
+                    <nav class="flex flex-col space-y-2">
+                        <a href="#home" class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-800 hover:text-white transition-colors">
+                            <i data-feather="user" class="w-5 h-5"></i>
+                            <span>About Me</span>
+                        </a>
+                        <a href="#experience" class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-800 hover:text-white transition-colors">
+                            <i data-feather="briefcase" class="w-5 h-5"></i>
+                            <span>Experience</span>
+                        </a>
+                        <a href="#projects" class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-800 hover:text-white transition-colors">
+                            <i data-feather="grid" class="w-5 h-5"></i>
+                            <span>Projects</span>
+                        </a>
+                        <a href="#certifications" class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-800 hover:text-white transition-colors">
+                            <i data-feather="award" class="w-5 h-5"></i>
+                            <span>Certifications</span>
+                        </a>
+                        <a href="#contact" class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-800 hover:text-white transition-colors">
+                            <i data-feather="mail" class="w-5 h-5"></i>
+                            <span>Contact</span>
+                        </a>
+                    </nav>
+
+                    <div class="mt-auto text-center text-xs text-gray-600">
+                        <p>&copy; ${new Date().getFullYear()} Mohammed Ameen Shareef.</p>
+                    </div>
+                </div>
+                `;
+                // After setting the HTML, render the icons
+                feather.replace();
+            }
+        }
+        customElements.define('custom-sidebar', CustomSidebar);
+    </script>
+
+    <script>
+        class ProjectCard extends HTMLElement {
+            connectedCallback() {
+                const title = this.getAttribute('title');
+                const description = this.getAttribute('description');
+                const tags = this.getAttribute('tags').split(',').map(tag => tag.trim());
+                const link = this.getAttribute('link');
+
+                // Create tag HTML
+                const tagsHtml = tags.map(tag => `
+                    <span class="bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-xs font-medium border border-gray-700">${tag}</span>
+                `).join('');
+
+                this.innerHTML = `
+                <a href="${link}" target="_blank" rel="noopener noreferrer" class="block h-full">
+                    <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 h-full flex flex-col hover:border-gray-500 transition-colors shadow-lg">
+                        <h3 class="text-xl font-semibold text-white mb-2">${title}</h3>
+                        <p class="text-gray-400 mb-4 flex-grow">${description}</p>
+                        
+                        <div class="flex flex-wrap gap-2 mt-auto pt-4">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                </a>
+                `;
+            }
+        }
+        customElements.define('project-card', ProjectCard);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar-component');
+            const mainContent = document.getElementById('main-content');
+            // Get the single, fixed button
+            const toggleBtn = document.getElementById('toggle-sidebar-btn'); 
+            
+            // --- Toggle Sidebar ---
+            toggleBtn.addEventListener('click', () => {
+                const icon = toggleBtn.querySelector('i');
+                
+                if (sidebar.classList.contains('is-closed')) {
+                    // --- OPENING ---
+                    sidebar.classList.remove('is-closed');
+                    // Remove closed classes
+                    mainContent.classList.remove('ml-0', 'pt-16', 'pl-16', 'pr-8', 'pb-8');
+                    // Add open classes
+                    mainContent.classList.add('ml-64', 'p-8');
+                    // Change icon to 'close'
+                    icon.setAttribute('data-feather', 'chevrons-left');
+                } else {
+                    // --- CLOSING ---
+                    sidebar.classList.add('is-closed');
+                    // Remove open classes
+                    mainContent.classList.remove('ml-64', 'p-8');
+                    // Add closed classes (need to set all padding sides)
+                    mainContent.classList.add('ml-0', 'pt-16', 'pl-16', 'pr-8', 'pb-8');
+                    // Change icon to 'open'
+                    icon.setAttribute('data-feather', 'menu');
+                }
+                // Re-render the icon
+                feather.replace();
+            });
+
+            // Run feather.replace() on load for the button
+            feather.replace();
+        });
+    </script>
+
+</body>
+</html>
