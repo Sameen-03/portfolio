@@ -8,20 +8,59 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     
     <style>
-        #sidebar-component.is-closed {
+        /* --- Mobile First (Sidebar Closed) --- */
+        #sidebar-component {
             transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            /* Ensure it's on top on mobile */
+            z-index: 40; 
+        }
+        #main-content {
+            margin-left: 0;
+            padding: 1.5rem; /* p-6 */
+            padding-top: 5rem; /* pt-20 to clear button */
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* --- Mobile Open State (Toggled by JS) --- */
+        #sidebar-component.mobile-open {
+            transform: translateX(0);
+        }
+
+        /* --- Desktop (lg) Overrides --- */
+        @media (min-width: 1024px) {
+            /* Desktop Default (Sidebar Open) */
+            #sidebar-component {
+                transform: translateX(0);
+            }
+            #main-content {
+                margin-left: 16rem; /* ml-64 */
+                padding: 2rem; /* p-8 */
+            }
+
+            /* Desktop Closed State (Toggled by JS) */
+            #sidebar-component.desktop-closed {
+                transform: translateX(-100%);
+            }
+            #main-content.desktop-closed {
+                margin-left: 0;
+                /* Re-apply padding to clear button */
+                padding: 2rem;
+                padding-left: 5rem; /* pl-20 */
+                padding-top: 5rem; /* pt-20 */
+            }
         }
     </style>
 </head>
 <body class="bg-black text-gray-400 font-sans antialiased">
 
     <button id="toggle-sidebar-btn" class="fixed top-4 left-4 z-50 bg-gray-900 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700 transition-all">
-        <i data-feather="chevrons-left" class="w-6 h-6"></i>
+        <i data-feather="menu" class="w-6 h-6"></i>
     </button>
 
     <custom-sidebar id="sidebar-component"></custom-sidebar>
 
-    <main id="main-content" class="ml-64 p-8 transition-all duration-300 ease-in-out">
+    <main id="main-content">
         
         <section id="home" class="mb-16">
             <h2 class="text-3xl font-bold mb-6 text-gray-300">About Me</h2>
@@ -67,7 +106,7 @@
 
         <section id="projects" class="mb-20">
             <h2 class="text-3xl font-bold mb-12 text-center text-gray-300">Featured Projects</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <project-card 
                     title="SummarizeIt-RAG based article summarizer plugin"
@@ -139,8 +178,8 @@
     <script>
         class CustomSidebar extends HTMLElement {
             connectedCallback() {
-                // Add transition classes to the component itself
-                this.classList.add('transition-transform', 'duration-300', 'ease-in-out', 'fixed', 'top-0', 'left-0', 'h-screen', 'z-40');
+                // Add base classes for fixed position and transitions
+                this.classList.add('fixed', 'top-0', 'left-0', 'h-screen');
                 
                 this.innerHTML = `
                 <div class="relative w-64 h-full bg-gray-900 text-gray-400 p-6 pt-20 flex flex-col border-r border-gray-800">
@@ -221,38 +260,56 @@
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar = document.getElementById('sidebar-component');
             const mainContent = document.getElementById('main-content');
-            // Get the single, fixed button
-            const toggleBtn = document.getElementById('toggle-sidebar-btn'); 
+            const toggleBtn = document.getElementById('toggle-sidebar-btn');
+            const icon = toggleBtn.querySelector('i');
             
-            // --- Toggle Sidebar ---
-            toggleBtn.addEventListener('click', () => {
-                const icon = toggleBtn.querySelector('i');
-                
-                if (sidebar.classList.contains('is-closed')) {
-                    // --- OPENING ---
-                    sidebar.classList.remove('is-closed');
-                    // Remove closed classes
-                    mainContent.classList.remove('ml-0', 'pt-16', 'pl-16', 'pr-8', 'pb-8');
-                    // Add open classes
-                    mainContent.classList.add('ml-64', 'p-8');
-                    // Change icon to 'close'
+            // Function to set initial state based on screen size
+            function setInitialState() {
+                const isDesktop = window.innerWidth >= 1024;
+                if (isDesktop) {
                     icon.setAttribute('data-feather', 'chevrons-left');
                 } else {
-                    // --- CLOSING ---
-                    sidebar.classList.add('is-closed');
-                    // Remove open classes
-                    mainContent.classList.remove('ml-64', 'p-8');
-                    // Add closed classes (need to set all padding sides)
-                    mainContent.classList.add('ml-0', 'pt-16', 'pl-16', 'pr-8', 'pb-8');
-                    // Change icon to 'open'
                     icon.setAttribute('data-feather', 'menu');
+                    // Ensure sidebar is closed on mobile load
+                    sidebar.classList.remove('mobile-open'); 
+                    mainContent.classList.remove('desktop-closed');
                 }
-                // Re-render the icon
+                feather.replace();
+            }
+
+            // Set the initial state on load
+            setInitialState();
+
+            // --- Toggle Sidebar ---
+            toggleBtn.addEventListener('click', () => {
+                const isDesktop = window.innerWidth >= 1024;
+                
+                if (isDesktop) {
+                    // --- Desktop Logic ---
+                    sidebar.classList.toggle('desktop-closed');
+                    mainContent.classList.toggle('desktop-closed');
+
+                    if (sidebar.classList.contains('desktop-closed')) {
+                        icon.setAttribute('data-feather', 'menu');
+                    } else {
+                        icon.setAttribute('data-feather', 'chevrons-left');
+                    }
+                } else {
+                    // --- Mobile Logic ---
+                    sidebar.classList.toggle('mobile-open');
+                    
+                    if (sidebar.classList.contains('mobile-open')) {
+                        icon.setAttribute('data-feather', 'x');
+                    } else {
+                        icon.setAttribute('data-feather', 'menu');
+                    }
+                }
+                // Re-render the changed icon
                 feather.replace();
             });
 
-            // Run feather.replace() on load for the button
-            feather.replace();
+            // Optional: Adjust state on resize (e.g., if user resizes from mobile to desktop)
+            window.addEventListener('resize', setInitialState);
         });
     </script>
 
