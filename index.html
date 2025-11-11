@@ -8,32 +8,33 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     
     <style>
-        /* --- Mobile First (Sidebar Closed) --- */
+        /* --- Mobile First (Sidebar OPEN by default) --- */
         #sidebar-component {
-            transform: translateX(-100%);
+            transform: translateX(0); /* Starts open */
             transition: transform 0.3s ease-in-out;
-            /* Ensure it's on top on mobile */
             z-index: 50; 
         }
+        /* This class will be toggled by JS to CLOSE it */
+        #sidebar-component.mobile-closed {
+            transform: translateX(-100%);
+        }
+        
         #main-content {
             margin-left: 0;
             padding: 1.5rem; /* p-6 */
             padding-top: 5rem; /* pt-20 to clear button */
             transition: margin-left 0.3s ease-in-out;
-            /* Added for overlay */
             width: 100%; 
         }
 
-        /* --- Mobile Open State (Toggled by JS) --- */
-        #sidebar-component.mobile-open {
-            transform: translateX(0);
-        }
-
-        /* --- Desktop (lg) Overrides --- */
+        /* --- Desktop (lg) Overrides (Sidebar always open) --- */
         @media (min-width: 1024px) {
             #sidebar-component {
-                /* Back to z-40 on desktop */
+                transform: translateX(0);
                 z-index: 40; 
+            }
+            /* Mobile classes have no effect on desktop */
+            #sidebar-component.mobile-closed {
                 transform: translateX(0);
             }
             #main-content {
@@ -41,25 +42,13 @@
                 padding: 2rem; /* p-8 */
                 width: auto; /* Reset width */
             }
-
-            /* Desktop Closed State (Toggled by JS) */
-            #sidebar-component.desktop-closed {
-                transform: translateX(-100%);
-            }
-            #main-content.desktop-closed {
-                margin-left: 0;
-                /* Re-apply padding to clear button */
-                padding: 2rem;
-                padding-left: 5rem; /* pl-20 */
-                padding-top: 5rem; /* pt-20 */
-            }
         }
     </style>
 </head>
 <body class="bg-black text-gray-400 font-sans antialiased">
 
-    <button id="toggle-sidebar-btn" class="fixed top-4 left-4 z-50 bg-gray-900 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700 transition-all">
-        <i data-feather="menu" class="w-6 h-6"></i>
+    <button id="toggle-sidebar-btn" class="lg:hidden fixed top-4 left-4 z-50 bg-gray-900 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700 transition-all">
+        <i data-feather="x" class="w-6 h-6"></i>
     </button>
 
     <custom-sidebar id="sidebar-component"></custom-sidebar>
@@ -263,65 +252,40 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar = document.getElementById('sidebar-component');
-            const mainContent = document.getElementById('main-content');
             const toggleBtn = document.getElementById('toggle-sidebar-btn');
             const icon = toggleBtn.querySelector('i');
             
-            // Function to set initial state based on screen size
-            function setInitialState() {
-                const isDesktop = window.innerWidth >= 1024;
-                if (isDesktop) {
-                    icon.setAttribute('data-feather', 'chevrons-left');
-                    // Ensure desktop classes are set
-                    sidebar.classList.remove('mobile-open');
-                    mainContent.classList.remove('desktop-closed');
-                    mainContent.style.marginLeft = '16rem';
-                    mainContent.style.padding = '2rem';
-                } else {
-                    icon.setAttribute('data-feather', 'menu');
-                    // Ensure sidebar is closed on mobile load
-                    sidebar.classList.remove('mobile-open'); 
-                    mainContent.classList.remove('desktop-closed');
-                    mainContent.style.marginLeft = '0';
-                    mainContent.style.padding = '1.5rem';
-                    mainContent.style.paddingTop = '5rem';
-                }
-                feather.replace();
-            }
+            // Set initial icons
+            feather.replace();
 
-            // Set the initial state on load
-            setInitialState();
-
-            // --- Toggle Sidebar ---
+            // --- Toggle Sidebar (Mobile-only) ---
             toggleBtn.addEventListener('click', () => {
-                const isDesktop = window.innerWidth >= 1024;
+                // This button is hidden on desktop, so this logic
+                // will only run on mobile.
+                sidebar.classList.toggle('mobile-closed');
                 
-                if (isDesktop) {
-                    // --- Desktop Logic ---
-                    sidebar.classList.toggle('desktop-closed');
-                    mainContent.classList.toggle('desktop-closed');
-
-                    if (sidebar.classList.contains('desktop-closed')) {
-                        icon.setAttribute('data-feather', 'menu');
-                    } else {
-                        icon.setAttribute('data-feather', 'chevrons-left');
-                    }
+                if (sidebar.classList.contains('mobile-closed')) {
+                    icon.setAttribute('data-feather', 'menu');
                 } else {
-                    // --- Mobile Logic ---
-                    sidebar.classList.toggle('mobile-open');
-                    
-                    if (sidebar.classList.contains('mobile-open')) {
-                        icon.setAttribute('data-feather', 'x');
-                    } else {
-                        icon.setAttribute('data-feather', 'menu');
-                    }
+                    icon.setAttribute('data-feather', 'x');
                 }
                 // Re-render the changed icon
                 feather.replace();
             });
 
-            // Optional: Adjust state on resize (e.g., if user resizes from mobile to desktop)
-            window.addEventListener('resize', setInitialState);
+            // Handle resize
+            window.addEventListener('resize', () => {
+                // If we resize to desktop, reset the mobile state
+                if (window.innerWidth >= 1024) {
+                    if (!sidebar.classList.contains('mobile-closed')) {
+                        // If mobile menu was open, close it
+                        sidebar.classList.add('mobile-closed');
+                        // Reset icon to 'menu' (even though it will be hidden)
+                        icon.setAttribute('data-feather', 'menu');
+                        feather.replace();
+                    }
+                }
+            });
         });
     </script>
 
