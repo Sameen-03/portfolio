@@ -12,7 +12,7 @@
         #sidebar-component {
             transform: translateX(0); /* Starts open */
             transition: transform 0.3s ease-in-out;
-            z-index: 50; 
+            z-index: 50; /* Stays on top on mobile */
         }
         /* This class will be toggled by JS to CLOSE it */
         #sidebar-component.mobile-closed {
@@ -31,7 +31,7 @@
         @media (min-width: 1024px) {
             #sidebar-component {
                 transform: translateX(0);
-                z-index: 40; 
+                z-index: 40; /* Sits behind content (if needed, but it's fine) */
             }
             /* Mobile classes have no effect on desktop */
             #sidebar-component.mobile-closed {
@@ -260,8 +260,8 @@
 
             // --- Toggle Sidebar (Mobile-only) ---
             toggleBtn.addEventListener('click', () => {
-                // This button is hidden on desktop, so this logic
-                // will only run on mobile.
+                // This button is hidden on desktop (lg:hidden), 
+                // so this logic will only run on mobile.
                 sidebar.classList.toggle('mobile-closed');
                 
                 if (sidebar.classList.contains('mobile-closed')) {
@@ -277,13 +277,18 @@
             window.addEventListener('resize', () => {
                 // If we resize to desktop, reset the mobile state
                 if (window.innerWidth >= 1024) {
-                    if (!sidebar.classList.contains('mobile-closed')) {
-                        // If mobile menu was open, close it
-                        sidebar.classList.add('mobile-closed');
-                        // Reset icon to 'menu' (even though it will be hidden)
-                        icon.setAttribute('data-feather', 'menu');
-                        feather.replace();
+                    // Remove 'mobile-closed' if it exists, as desktop is always open
+                    if (sidebar.classList.contains('mobile-closed')) {
+                        sidebar.classList.remove('mobile-closed');
                     }
+                } else {
+                    // If we resize to mobile, make sure button icon is correct
+                    if (sidebar.classList.contains('mobile-closed')) {
+                        icon.setAttribute('data-feather', 'menu');
+                    } else {
+                        icon.setAttribute('data-feather', 'x');
+                    }
+                    feather.replace();
                 }
             });
         });
