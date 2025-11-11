@@ -8,15 +8,15 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     
     <style>
-        /* --- Mobile First (Sidebar OPEN by default) --- */
+        /* --- Mobile First (Sidebar CLOSED by default) --- */
         #sidebar-component {
-            transform: translateX(0); /* Starts open */
+            transform: translateX(-100%); /* Starts closed */
             transition: transform 0.3s ease-in-out;
-            z-index: 50; /* Stays on top on mobile */
+            z-index: 40; 
         }
-        /* This class will be toggled by JS to CLOSE it */
-        #sidebar-component.mobile-closed {
-            transform: translateX(-100%);
+        /* This class will be toggled by JS to OPEN it */
+        #sidebar-component.mobile-open {
+            transform: translateX(0);
         }
         
         #main-content {
@@ -31,10 +31,10 @@
         @media (min-width: 1024px) {
             #sidebar-component {
                 transform: translateX(0);
-                z-index: 40; /* Sits behind content (if needed, but it's fine) */
+                z-index: 40; 
             }
             /* Mobile classes have no effect on desktop */
-            #sidebar-component.mobile-closed {
+            #sidebar-component.mobile-open {
                 transform: translateX(0);
             }
             #main-content {
@@ -48,7 +48,7 @@
 <body class="bg-black text-gray-400 font-sans antialiased">
 
     <button id="toggle-sidebar-btn" class="lg:hidden fixed top-4 left-4 z-50 bg-gray-900 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 border border-gray-700 transition-all">
-        <i data-feather="x" class="w-6 h-6"></i>
+        <i data-feather="menu" class="w-6 h-6"></i>
     </button>
 
     <custom-sidebar id="sidebar-component"></custom-sidebar>
@@ -262,12 +262,12 @@
             toggleBtn.addEventListener('click', () => {
                 // This button is hidden on desktop (lg:hidden), 
                 // so this logic will only run on mobile.
-                sidebar.classList.toggle('mobile-closed');
+                sidebar.classList.toggle('mobile-open'); // Toggles 'mobile-open'
                 
-                if (sidebar.classList.contains('mobile-closed')) {
-                    icon.setAttribute('data-feather', 'menu');
+                if (sidebar.classList.contains('mobile-open')) { // Check if it IS open
+                    icon.setAttribute('data-feather', 'x'); // Show 'x'
                 } else {
-                    icon.setAttribute('data-feather', 'x');
+                    icon.setAttribute('data-feather', 'menu'); // Show 'menu'
                 }
                 // Re-render the changed icon
                 feather.replace();
@@ -277,16 +277,16 @@
             window.addEventListener('resize', () => {
                 // If we resize to desktop, reset the mobile state
                 if (window.innerWidth >= 1024) {
-                    // Remove 'mobile-closed' if it exists, as desktop is always open
-                    if (sidebar.classList.contains('mobile-closed')) {
-                        sidebar.classList.remove('mobile-closed');
+                    // Remove 'mobile-open' if it exists, as desktop is always open
+                    if (sidebar.classList.contains('mobile-open')) {
+                        sidebar.classList.remove('mobile-open');
                     }
                 } else {
                     // If we resize to mobile, make sure button icon is correct
-                    if (sidebar.classList.contains('mobile-closed')) {
-                        icon.setAttribute('data-feather', 'menu');
-                    } else {
+                    if (sidebar.classList.contains('mobile-open')) {
                         icon.setAttribute('data-feather', 'x');
+                    } else {
+                        icon.setAttribute('data-feather', 'menu');
                     }
                     feather.replace();
                 }
