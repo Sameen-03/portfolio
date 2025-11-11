@@ -13,13 +13,15 @@
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
             /* Ensure it's on top on mobile */
-            z-index: 40; 
+            z-index: 50; 
         }
         #main-content {
             margin-left: 0;
             padding: 1.5rem; /* p-6 */
             padding-top: 5rem; /* pt-20 to clear button */
             transition: margin-left 0.3s ease-in-out;
+            /* Added for overlay */
+            width: 100%; 
         }
 
         /* --- Mobile Open State (Toggled by JS) --- */
@@ -29,13 +31,15 @@
 
         /* --- Desktop (lg) Overrides --- */
         @media (min-width: 1024px) {
-            /* Desktop Default (Sidebar Open) */
             #sidebar-component {
+                /* Back to z-40 on desktop */
+                z-index: 40; 
                 transform: translateX(0);
             }
             #main-content {
                 margin-left: 16rem; /* ml-64 */
                 padding: 2rem; /* p-8 */
+                width: auto; /* Reset width */
             }
 
             /* Desktop Closed State (Toggled by JS) */
@@ -168,7 +172,7 @@
             <h2 class="text-3xl font-bold mb-6">Get In Touch</h2>
             <p class="mb-8 max-w-2xl mx-auto">I'm currently open to new opportunities and collaborations. Feel free to reach out via email.</p>
             <a href="mailto:ameenshareef2003@gmail.com"
-               class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 text-lg">
+               class="inline-block bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 text-lg break-all">
                 ameenshareef2003@gmail.com
             </a>
         </section>
@@ -268,11 +272,19 @@
                 const isDesktop = window.innerWidth >= 1024;
                 if (isDesktop) {
                     icon.setAttribute('data-feather', 'chevrons-left');
+                    // Ensure desktop classes are set
+                    sidebar.classList.remove('mobile-open');
+                    mainContent.classList.remove('desktop-closed');
+                    mainContent.style.marginLeft = '16rem';
+                    mainContent.style.padding = '2rem';
                 } else {
                     icon.setAttribute('data-feather', 'menu');
                     // Ensure sidebar is closed on mobile load
                     sidebar.classList.remove('mobile-open'); 
                     mainContent.classList.remove('desktop-closed');
+                    mainContent.style.marginLeft = '0';
+                    mainContent.style.padding = '1.5rem';
+                    mainContent.style.paddingTop = '5rem';
                 }
                 feather.replace();
             }
